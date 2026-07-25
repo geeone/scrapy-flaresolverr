@@ -47,10 +47,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install "${{ matrix.scrapy-requirement }}" "requests>=2.31,<3" build
-          pip install -e . --no-deps
 
       - name: Build the package
         run: python -m build
+
+      - name: Install the package
+        run: pip install dist/*.whl --no-deps
 
       - name: Check import
         run: python -c "import scrapy_flaresolverr"
