@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Status (Python ${{ matrix.python-version }}, Scrapy ${{ matrix.scrapy-version }})
+    name: Build Status (Python ${{ matrix.python-version }}, ${{ matrix.scrapy-requirement }})
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,23 +17,23 @@ jobs:
         include:
           # Lowest supported Scrapy
           - python-version: "3.10"
-            scrapy-version: "2.12.*"
+            scrapy-requirement: "Scrapy==2.12.*"
           - python-version: "3.11"
-            scrapy-version: "2.12.*"
+            scrapy-requirement: "Scrapy==2.12.*"
           - python-version: "3.12"
-            scrapy-version: "2.12.*"
+            scrapy-requirement: "Scrapy==2.12.*"
 
           # Latest supported Scrapy
           - python-version: "3.10"
-            scrapy-version: "<3"
+            scrapy-requirement: "Scrapy<3"
           - python-version: "3.11"
-            scrapy-version: "<3"
+            scrapy-requirement: "Scrapy<3"
           - python-version: "3.12"
-            scrapy-version: "<3"
+            scrapy-requirement: "Scrapy<3"
           - python-version: "3.13"
-            scrapy-version: "<3"
+            scrapy-requirement: "Scrapy<3"
           - python-version: "3.14"
-            scrapy-version: "<3"
+            scrapy-requirement: "Scrapy<3"
 
     steps:
       - uses: actions/checkout@v7
@@ -46,7 +46,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "Scrapy==${{ matrix.scrapy-version }}" "requests>=2.31,<3" build
+          pip install "${{ matrix.scrapy-requirement }}" "requests>=2.31,<3" build
           pip install -e . --no-deps
 
       - name: Build the package
