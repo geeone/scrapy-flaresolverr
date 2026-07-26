@@ -1,0 +1,10 @@
+[run]
+branch = true
+omit =
+    tests/*
+    */__init__.py
+
+[report]
+show_missing = true
+skip_covered = true
+fail_under = 90
