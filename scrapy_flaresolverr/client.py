@@ -6,14 +6,13 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from typing import Any
 
-from requests import Response
 import requests
+from requests import Response
 
 from scrapy_flaresolverr.exceptions import (
     FlareSolverrRequestError,
     FlareSolverrResponseError,
 )
-
 
 PostCallable = Callable[..., Response]
 

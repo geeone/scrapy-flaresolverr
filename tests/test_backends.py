@@ -2,7 +2,6 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
-
 from scrapy_flaresolverr.backends import BackendPool, normalize_backend_url
 from scrapy_flaresolverr.exceptions import FlareSolverrConfigurationError
 

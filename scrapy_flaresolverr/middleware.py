@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
 import threading
+from dataclasses import dataclass
 from typing import Any, NoReturn, cast
 
 from scrapy import Spider, signals
@@ -52,24 +52,18 @@ class FlareSolverrMiddleware:
         self.backend_pool = backend_pool
         self.client = client
         self.stats = stats
-        self._semaphore = threading.BoundedSemaphore(
-            settings.max_concurrent
-        )
+        self._semaphore = threading.BoundedSemaphore(settings.max_concurrent)
 
     @classmethod
     def from_crawler(cls, crawler: Crawler) -> FlareSolverrMiddleware:
         """Create the middleware from Scrapy settings."""
 
-        settings = FlareSolverrSettings.from_scrapy_settings(
-            crawler.settings
-        )
+        settings = FlareSolverrSettings.from_scrapy_settings(crawler.settings)
 
         middleware = cls(
             settings=settings,
             backend_pool=BackendPool(settings.urls),
-            client=FlareSolverrClient(
-                auth_token=settings.auth_token
-            ),
+            client=FlareSolverrClient(auth_token=settings.auth_token),
             stats=FlareSolverrStats(crawler.stats),
         )
 
@@ -83,10 +77,7 @@ class FlareSolverrMiddleware:
     def spider_opened(self, spider: Spider) -> None:
         """Log the enabled FlareSolverr backend configuration."""
 
-        backends = ", ".join(
-            backend.url
-            for backend in self.backend_pool.backends
-        )
+        backends = ", ".join(backend.url for backend in self.backend_pool.backends)
 
         spider.logger.info(
             "scrapy-flaresolverr enabled with %d backend(s): %s",
@@ -273,15 +264,11 @@ def _optional_string(
         return None
 
     if not isinstance(value, str):
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be a string"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be a string")
 
     parsed = value.strip()
     if not parsed:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must not be empty"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must not be empty")
 
     return parsed
 
@@ -298,9 +285,7 @@ def _positive_int(
         return default
 
     if isinstance(value, bool):
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be an integer"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be an integer")
 
     if isinstance(value, int):
         parsed = value
@@ -312,14 +297,10 @@ def _positive_int(
                 f"FlareSolverr option {name!r} must be an integer"
             ) from exc
     else:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be an integer"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be an integer")
 
     if parsed < 1:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be greater than zero"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be greater than zero")
 
     return parsed
 
@@ -338,9 +319,7 @@ def _positive_float(
     parsed = _parse_float(value, name=name)
 
     if parsed <= 0:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be greater than zero"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be greater than zero")
 
     return parsed
 
@@ -358,9 +337,7 @@ def _optional_non_negative_float(
     parsed = _parse_float(value, name=name)
 
     if parsed < 0:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be zero or greater"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be zero or greater")
 
     return parsed
 
@@ -373,21 +350,15 @@ def _parse_float(
     """Parse a finite numeric option without accepting booleans."""
 
     if isinstance(value, bool):
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be numeric"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be numeric")
 
     try:
         parsed = float(value)
     except (TypeError, ValueError) as exc:
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be numeric"
-        ) from exc
+        raise ValueError(f"FlareSolverr option {name!r} must be numeric") from exc
 
     if not math.isfinite(parsed):
-        raise ValueError(
-            f"FlareSolverr option {name!r} must be finite"
-        )
+        raise ValueError(f"FlareSolverr option {name!r} must be finite")
 
     return parsed
 
@@ -418,6 +389,4 @@ def _boolean(
         if normalized in {"false", "0", "no", "off"}:
             return False
 
-    raise ValueError(
-        f"FlareSolverr option {name!r} must be a boolean"
-    )
+    raise ValueError(f"FlareSolverr option {name!r} must be a boolean")

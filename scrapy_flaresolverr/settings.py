@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 
 from scrapy.settings import BaseSettings
 
@@ -102,8 +102,7 @@ def _get_urls(settings: BaseSettings) -> tuple[str, ...]:
 
     if not configured_urls:
         raise FlareSolverrConfigurationError(
-            "FLARESOLVERR_URLS or FLARESOLVERR_URL must define "
-            "at least one backend"
+            "FLARESOLVERR_URLS or FLARESOLVERR_URL must define at least one backend"
         )
 
     urls: list[str] = []
@@ -136,14 +135,10 @@ def _get_positive_int(
     try:
         value = settings.getint(name, default)
     except (TypeError, ValueError) as exc:
-        raise FlareSolverrConfigurationError(
-            f"{name} must be an integer"
-        ) from exc
+        raise FlareSolverrConfigurationError(f"{name} must be an integer") from exc
 
     if value < 1:
-        raise FlareSolverrConfigurationError(
-            f"{name} must be greater than zero"
-        )
+        raise FlareSolverrConfigurationError(f"{name} must be greater than zero")
 
     return value
 
@@ -159,19 +154,13 @@ def _get_positive_float(
     try:
         value = settings.getfloat(name, default)
     except (TypeError, ValueError) as exc:
-        raise FlareSolverrConfigurationError(
-            f"{name} must be numeric"
-        ) from exc
+        raise FlareSolverrConfigurationError(f"{name} must be numeric") from exc
 
     if not math.isfinite(value):
-        raise FlareSolverrConfigurationError(
-            f"{name} must be finite"
-        )
+        raise FlareSolverrConfigurationError(f"{name} must be finite")
 
     if value <= 0:
-        raise FlareSolverrConfigurationError(
-            f"{name} must be greater than zero"
-        )
+        raise FlareSolverrConfigurationError(f"{name} must be greater than zero")
 
     return value
 
@@ -187,9 +176,7 @@ def _optional_string(
         return None
 
     if not isinstance(value, str):
-        raise FlareSolverrConfigurationError(
-            f"{name} must be a string"
-        )
+        raise FlareSolverrConfigurationError(f"{name} must be a string")
 
     parsed = value.strip()
     return parsed or None

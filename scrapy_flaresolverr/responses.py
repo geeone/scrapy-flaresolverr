@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
 import re
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 from scrapy.http import Headers, HtmlResponse, Request
 
 from scrapy_flaresolverr.client import FlareSolverrSolution
-
 
 # FlareSolverr returns decoded HTML. Transport headers describing the original
 # encoded payload must therefore not be copied to the new Scrapy response.
@@ -71,15 +70,10 @@ def _normalize_headers(values: Mapping[str, Any]) -> Headers:
         )
 
         if lower_name == "content-type":
-            header_values = [
-                _normalize_content_type(item)
-                for item in header_values
-            ]
+            header_values = [_normalize_content_type(item) for item in header_values]
 
         normalized[header_name] = (
-            header_values[0]
-            if len(header_values) == 1
-            else header_values
+            header_values[0] if len(header_values) == 1 else header_values
         )
 
     return Headers(normalized)
@@ -98,15 +92,11 @@ def _normalize_header_name(value: Any) -> str:
     elif isinstance(value, str):
         name = value
     else:
-        raise ValueError(
-            "FlareSolverr response header names must be strings"
-        )
+        raise ValueError("FlareSolverr response header names must be strings")
 
     name = name.strip()
     if not name:
-        raise ValueError(
-            "FlareSolverr response contains an empty header name"
-        )
+        raise ValueError("FlareSolverr response contains an empty header name")
 
     return name
 
@@ -143,8 +133,7 @@ def _normalize_header_values(
 
     if not normalized:
         raise ValueError(
-            f"FlareSolverr response header {header_name!r} "
-            "contains no values"
+            f"FlareSolverr response header {header_name!r} contains no values"
         )
 
     return normalized

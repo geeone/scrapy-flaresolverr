@@ -2,7 +2,6 @@ from unittest.mock import Mock
 
 import pytest
 from scrapy.settings import Settings
-
 from scrapy_flaresolverr.exceptions import FlareSolverrConfigurationError
 from scrapy_flaresolverr.settings import FlareSolverrSettings
 

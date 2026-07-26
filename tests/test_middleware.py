@@ -2,8 +2,6 @@ from unittest.mock import Mock, call, patch
 
 import pytest
 from scrapy.http import Request
-from twisted.python.failure import Failure
-
 from scrapy_flaresolverr.backends import BackendPool
 from scrapy_flaresolverr.client import FlareSolverrSolution
 from scrapy_flaresolverr.exceptions import (
@@ -20,6 +18,7 @@ from scrapy_flaresolverr.middleware import (
 )
 from scrapy_flaresolverr.settings import FlareSolverrSettings
 from scrapy_flaresolverr.stats import FlareSolverrStats
+from twisted.python.failure import Failure
 
 
 def _settings(**overrides):

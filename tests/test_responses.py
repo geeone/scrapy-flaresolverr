@@ -1,8 +1,7 @@
 import pytest
 from scrapy.http import Request
-
 from scrapy_flaresolverr.client import FlareSolverrSolution
-from scrapy_flaresolverr.responses import build_html_response, _normalize_headers
+from scrapy_flaresolverr.responses import _normalize_headers, build_html_response
 
 
 def _solution(headers=None):

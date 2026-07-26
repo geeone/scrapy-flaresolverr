@@ -2,13 +2,11 @@ from unittest.mock import Mock
 
 import pytest
 import requests
-
 from scrapy_flaresolverr.client import FlareSolverrClient
 from scrapy_flaresolverr.exceptions import (
     FlareSolverrRequestError,
     FlareSolverrResponseError,
 )
-
 
 ENDPOINT = "http://flaresolverr:8191/v1"
 TARGET_URL = "https://example.com/"

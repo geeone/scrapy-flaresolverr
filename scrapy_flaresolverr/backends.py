@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from dataclasses import dataclass
 import itertools
 import threading
+from collections.abc import Sequence
+from dataclasses import dataclass
 from urllib.parse import urlsplit, urlunsplit
 
 from scrapy_flaresolverr.exceptions import FlareSolverrConfigurationError
@@ -28,9 +28,7 @@ def normalize_backend_url(value: str) -> str:
 
     raw_url = value.strip()
     if not raw_url:
-        raise FlareSolverrConfigurationError(
-            "FlareSolverr backend URL cannot be empty"
-        )
+        raise FlareSolverrConfigurationError("FlareSolverr backend URL cannot be empty")
 
     parts = urlsplit(raw_url)
 
@@ -77,16 +75,10 @@ class BackendPool:
             dict.fromkeys(normalize_backend_url(url) for url in urls)
         )
 
-        self._backends = tuple(
-            FlareSolverrBackend(url=url)
-            for url in normalized_urls
-        )
+        self._backends = tuple(FlareSolverrBackend(url=url) for url in normalized_urls)
         self._cycle = itertools.cycle(self._backends)
         self._lock = threading.Lock()
-        self._by_url = {
-            backend.url: backend
-            for backend in self._backends
-        }
+        self._by_url = {backend.url: backend for backend in self._backends}
 
     @property
     def backends(self) -> tuple[FlareSolverrBackend, ...]:
