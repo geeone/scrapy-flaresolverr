@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=83"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scrapy-flaresolverr"
+version = "0.1.0"
+description = "Scrapy downloader middleware for FlareSolverr with multiple backends and concurrency control"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "Sergei Denisenko", email = "sergei.denisenko@ieee.org" },
+]
+dependencies = [
+  "Scrapy>=2.12,<3",
+  "requests>=2.31,<3",
+]
+keywords = [
+  "scrapy",
+  "flaresolverr",
+  "web-scraping",
+  "crawler",
+  "downloader-middleware",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Scrapy",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/geeone/scrapy-flaresolverr"
+Documentation = "https://github.com/geeone/scrapy-flaresolverr#readme"
+Source = "https://github.com/geeone/scrapy-flaresolverr"
+Issues = "https://github.com/geeone/scrapy-flaresolverr/issues"
+Changelog = "https://github.com/geeone/scrapy-flaresolverr/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scrapy_flaresolverr*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+scrapy_flaresolverr = ["py.typed"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+src = ["scrapy_flaresolverr", "tests"]
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+files = ["scrapy_flaresolverr"]

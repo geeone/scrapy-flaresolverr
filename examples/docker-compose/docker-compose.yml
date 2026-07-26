@@ -1,0 +1,59 @@
+services:
+  flaresolverr-1:
+    image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION:-v3.5.0}
+    restart: unless-stopped
+    shm_size: "2gb"
+    mem_limit: 2500m
+    expose:
+      - "8191"
+    environment:
+      LOG_LEVEL: ${FLARESOLVERR_LOG_LEVEL:-info}
+      TZ: ${TZ:-Europe/Berlin}
+      DISABLE_MEDIA: ${FLARESOLVERR_DISABLE_MEDIA:-true}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8191/', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  flaresolverr-2:
+    image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION:-v3.5.0}
+    restart: unless-stopped
+    shm_size: "2gb"
+    mem_limit: 2500m
+    expose:
+      - "8191"
+    environment:
+      LOG_LEVEL: ${FLARESOLVERR_LOG_LEVEL:-info}
+      TZ: ${TZ:-Europe/Berlin}
+      DISABLE_MEDIA: ${FLARESOLVERR_DISABLE_MEDIA:-true}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8191/', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    depends_on:
+      flaresolverr-1:
+        condition: service_healthy
+      flaresolverr-2:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${FLARESOLVERR_PORT:-8191}:8191"
+    environment:
+      FLARESOLVERR_AUTH_TOKEN: ${FLARESOLVERR_AUTH_TOKEN:?Set FLARESOLVERR_AUTH_TOKEN in .env}
+    volumes:
+      - ./default.conf.template:/etc/nginx/templates/default.conf.template:ro

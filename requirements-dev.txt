@@ -1,0 +1,9 @@
+-e .
+-r requirements-test.txt
+
+build>=1.5,<2
+mypy>=2.3,<3
+pre-commit>=4.6,<5
+ruff>=0.16,<1
+twine>=6.2,<7
+types-requests>=2.31,<3

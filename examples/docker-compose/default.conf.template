@@ -1,0 +1,43 @@
+upstream flaresolverr_1 {
+    server flaresolverr-1:8191;
+}
+
+upstream flaresolverr_2 {
+    server flaresolverr-2:8191;
+}
+
+server {
+    listen 8191;
+    server_name _;
+
+    client_max_body_size 20m;
+
+    proxy_connect_timeout 10s;
+    proxy_send_timeout 180s;
+    proxy_read_timeout 180s;
+    send_timeout 180s;
+
+    if ($http_authorization != "Bearer ${FLARESOLVERR_AUTH_TOKEN}") {
+        return 401;
+    }
+
+    location /fs1/ {
+        rewrite ^/fs1/(.*)$ /$1 break;
+        proxy_pass http://flaresolverr_1;
+        proxy_http_version 1.1;
+        proxy_set_header Authorization "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /fs2/ {
+        rewrite ^/fs2/(.*)$ /$1 break;
+        proxy_pass http://flaresolverr_2;
+        proxy_http_version 1.1;
+        proxy_set_header Authorization "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
