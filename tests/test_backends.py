@@ -94,7 +94,6 @@ def test_backend_pool_resolve_rejects_unknown_override():
         pool.resolve("http://second:8191")
 
 
-
 def test_backend_pool_round_robin_is_thread_safe():
     pool = BackendPool(["http://first:8191", "http://second:8191"])
 
