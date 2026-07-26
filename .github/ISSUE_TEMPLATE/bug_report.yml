@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible problem
+title: "bug: "
+labels: [bug]
+
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: scrapy-flaresolverr version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Scrapy and FlareSolverr versions
+      placeholder: "Scrapy 2.17.0, FlareSolverr v3.5.0"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Python version
+      placeholder: "3.14"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest configuration and spider/request that reproduces the issue.
+      render: python
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Logs or traceback
+      description: Include relevant Scrapy or FlareSolverr logs if available.
+      render: text
+    validations:
+      required: false
